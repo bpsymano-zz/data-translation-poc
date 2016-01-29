@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	version="EE-3.5.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">	
+	
+	<flow name="testflow">
+		<http:inbound-endpoint exchange-pattern="request-response" host="localhost" path="translation" port="8081" doc:name="localhost:8088"/>
+		<logger level="INFO" message="#[getCountryCode('US')]" />
+		<logger level="INFO" message="#[getCountryCode('AU')]" />
+		<logger level="INFO" message="#[getCountryCode('BE')]" />
+		<logger level="INFO" message="#[getCountryCode('IN')]" />
+		<logger level="INFO" message="#[getCountryCode('Bogus')]" />
+	</flow>
+	
+</mule>

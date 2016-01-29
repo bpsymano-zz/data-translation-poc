@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans"
+	xmlns:hz="http://www.hazelcast.com/schema/spring"
+	version="EE-3.5.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.hazelcast.com/schema/spring http://www.hazelcast.com/schema/spring/hazelcast-spring-3.16.xsd">
+
+	<spring:beans>
+		<spring:import resource="classpath:cluster-config.xml" />
+		<spring:bean id="translationDataDao" class="org.symanowicz.cache.TranslationDataDao">
+			<spring:property name="location" value="file:${some.environment.location.variable}/data-translation-poc.properties" />
+			<spring:property name="mapPropertyName" value="data-translation.countryCode" />
+		</spring:bean>		
+		<spring:bean id="countryMapper" class="org.symanowicz.data.utils.CountryMapper"/>
+	</spring:beans>
+
+	<configuration doc:name="Configuration">
+		<expression-language>
+			<global-functions>
+				def getCountryCode(salesforceCountryCode) {
+					return app.registry.countryMapper.getValue(salesforceCountryCode);
+				}
+			</global-functions>
+		</expression-language>
+	</configuration>
+
+	<custom-agent name="test-custom-agent" class="org.symanowicz.cache.CacheLoaderAgent">
+		<spring:property name="dao" ref="translationDataDao" />
+	</custom-agent>
+
+</mule>

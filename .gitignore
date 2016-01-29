@@ -1,0 +1,9 @@
+.project
+target/
+bin/
+.mule/
+.studio/
+.settings/
+.*.tmp
+.classpath
+*.iml
