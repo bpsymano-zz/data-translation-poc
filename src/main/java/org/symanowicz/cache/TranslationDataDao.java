@@ -49,8 +49,7 @@ public class TranslationDataDao extends PropertiesLoaderSupport implements MuleC
 		}
 	}
 
-	private void createCacheMap(final Properties props,
-			final IMap<String, String> map, final String propertyList) {
+	private void createCacheMap(final Properties props, final IMap<String, String> map, final String propertyList) {
 		String[] data = StringUtils.split(propertyList, ",");
 		for (String datum : data) {
 			String[] propertyData = StringUtils.split(datum, "|");

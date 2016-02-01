@@ -23,14 +23,14 @@ http://www.hazelcast.com/schema/spring http://www.hazelcast.com/schema/spring/ha
 	<configuration doc:name="Configuration">
 		<expression-language>
 			<global-functions>
-				def getCountryCode(salesforceCountryCode) {
-					return app.registry.countryMapper.getValue(salesforceCountryCode);
+				def getCountryCode(countryCode) {
+					return app.registry.countryMapper.getValue(countryCode);
 				}
 			</global-functions>
 		</expression-language>
 	</configuration>
 
-	<custom-agent name="test-custom-agent" class="org.symanowicz.cache.CacheLoaderAgent">
+	<custom-agent name="custom-agent" class="org.symanowicz.cache.CacheLoaderAgent">
 		<spring:property name="dao" ref="translationDataDao" />
 	</custom-agent>
 
